@@ -201,7 +201,7 @@ export default {
       editCateDialogVisible: false,
       // 编辑分类 数据
       editCateForm: {},
-      //编辑分类 表单 验证规则
+      // 编辑分类 表单 验证规则
       editCateFormRules: {
         cat_name: [
           { required: true, message: '请输入分类名称', trigger: 'blur' },
@@ -252,13 +252,13 @@ export default {
     },
     // 监听添加分类表单
     parentCateChanged() {
-      console.log(this.selectedKeys)
+      // console.log(this.selectedKeys)
       if (this.selectedKeys.length > 0) {
         this.addCateForm.cat_pid = this.selectedKeys[
           this.selectedKeys.length - 1
         ]
         this.addCateForm.cat_level = this.selectedKeys.length
-        return
+        return null
       } else {
         this.addCateForm.cat_pid = 0
         this.addCateForm.cat_level = 0
@@ -286,7 +286,8 @@ export default {
     addCateDialogClosed() {
       this.$refs.addCateFormRef.resetFields()
       this.selectedKeys = []
-      ;(this.addCateForm.cat_pid = 0), (this.addCateForm.cat_level = 0)
+      this.addCateForm.cat_pid = 0
+      this.addCateForm.cat_level = 0
     },
     // 根据分类id删除分类
     async removeCateById(cate) {
@@ -311,7 +312,7 @@ export default {
     },
     // 根据分类id编辑分类 弹框
     async editCateById(cate) {
-      console.log(cate)
+      // console.log(cate)
       const { data: res } = await this.$http.get('categories/' + cate.cat_id)
       if (res.meta.status !== 200) {
         return this.$message.error('获取分类信息失败！')
@@ -329,7 +330,7 @@ export default {
         }
         const { data: res } = await this.$http.put(
           'categories/' + this.editCateForm.cat_id,
-          {cat_name:this.editCateForm.cat_name} 
+          { cat_name:this.editCateForm.cat_name } 
           
         )
         if (res.meta.status !== 200) {
