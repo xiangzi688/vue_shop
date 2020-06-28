@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     # 下载仓库代码
-    - uses: actions/chechkout@v2
+    - uses: actions/checkout@v2
 
     # 缓存依赖
     - name: Cache dependencies
