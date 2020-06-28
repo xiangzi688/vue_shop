@@ -15,7 +15,7 @@ jobs:
     # 缓存依赖
     - name: Cache dependencies
       uses: actions/cache@v1
-      wiht:
+      with:
         path: ~/.npm
         key: ${{ runer.os }}-node-${{ hashFiles('**/package-lock.json') }}
         restore-keys:
