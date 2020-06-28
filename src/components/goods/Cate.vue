@@ -222,7 +222,7 @@ export default {
         return this.$message.error('请求商品列表数据失败！')
       }
       this.cateList = res.data.result
-      console.log(this.cateList)
+      // console.log(this.cateList)
       this.total = res.data.total
     },
     // 监听pagesize 的变化
@@ -330,8 +330,8 @@ export default {
         }
         const { data: res } = await this.$http.put(
           'categories/' + this.editCateForm.cat_id,
-          { cat_name:this.editCateForm.cat_name } 
-          
+          { cat_name: this.editCateForm.cat_name } 
+
         )
         if (res.meta.status !== 200) {
           return this.$message.error('编辑分类名称失败！')

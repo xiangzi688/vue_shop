@@ -202,7 +202,7 @@ export default {
           { validator: checkMobile, trigger: 'blur' }
         ]
       },
-      //控制 修改用户弹框
+      // 控制 修改用户弹框
       editDialogVisible: false,
       // 查询到的 修改用户信息
       editForm: {},
@@ -231,7 +231,7 @@ export default {
     this.getUsetList()
   },
   methods: {
-    //获取用户数据
+    // 获取用户数据
     async getUsetList() {
       const { data: res } = await this.$http.get('users', {
         params: this.queryInfo
@@ -254,9 +254,7 @@ export default {
     },
     // 监听用户状态变化
     async userStateChanged(userinfo) {
-      const { data: res } = await this.$http.put(
-        `users/${userinfo.id}/state/${userinfo.mg_state}`
-      )
+      const { data: res } = await this.$http.put(`users/${userinfo.id}/state/${userinfo.mg_state}`)
       if (res.meta.status !== 200) {
         userinfo.mg_state = !userinfo.mg_state
         return this.$message.error('更新用户状态失败！')
@@ -272,11 +270,11 @@ export default {
       this.$refs.addFormRef.validate(async valid => {
         if (!valid) return
         const { data: res } = await this.$http.post('users', this.addForm)
-        if (res.meta.status != 201) {
+        if (res.meta.status !== 201) {
           return this.$message.error('添加用户失败！')
         }
         this.$message.success('添加用户成功！')
-        this.addDialogVisible = false //隐藏添加用户弹框
+        this.addDialogVisible = false // 隐藏添加用户弹框
         this.getUsetList()
       })
     },
@@ -299,13 +297,10 @@ export default {
     eidtUserInfo(id) {
       this.$refs.editFormRef.validate(async valid => {
         if (!valid) return
-        const { data: res } = await this.$http.put(
-          'users/' + this.editForm.id,
-          {
-            email: this.editForm.email,
-            mobile: this.editForm.mobile
-          }
-        )
+        const { data: res } = await this.$http.put('users/' + this.editForm.id, {
+          email: this.editForm.email,
+          mobile: this.editForm.mobile
+        })
         if (res.meta.status !== 200) {
           return this.$message.error('修改用户失败！')
         }
@@ -316,15 +311,11 @@ export default {
     },
     // 删除用户按钮
     async removeUserById(id) {
-      const confirmResult = await this.$confirm(
-        '此操作将永久删除该用户？',
-        '提示',
-        {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }
-      ).catch(err => err)
+      const confirmResult = await this.$confirm('此操作将永久删除该用户？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).catch(err => err)
 
       // 点击确认 返回confirm
       // 点击取消 返回cancel
@@ -354,12 +345,9 @@ export default {
       if (!this.selectRoleId) {
         return this.$message.error('请选择要分配的角色')
       }
-      const { data: res } = await this.$http.put(
-        `users/${this.userInfo.id}/role`,
-        {
-          rid: this.selectRoleId
-        }
-      )
+      const { data: res } = await this.$http.put(`users/${this.userInfo.id}/role`, {
+        rid: this.selectRoleId
+      })
       if (res.meta.status !== 200) {
         return this.$message.error('更新角色失败！')
       }

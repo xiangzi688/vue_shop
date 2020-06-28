@@ -193,21 +193,17 @@ export default {
       addForm: {
         attr_name: ''
       },
-      //添加参数、添加属性 表单验证规则
+      // 添加参数、添加属性 表单验证规则
       addFormRules: {
-        attr_name: [
-          { required: true, message: '请输入参数名称', trigger: 'blur' }
-        ]
+        attr_name: [{ required: true, message: '请输入参数名称', trigger: 'blur' }]
       },
-      //控制 编辑参数和属性 对话框的显示与隐藏
+      // 控制 编辑参数和属性 对话框的显示与隐藏
       editParamsDialogVisible: false,
-      //编辑表单 参数对象
+      // 编辑表单 参数对象
       editForm: {},
       // 编辑表单 验证规则
       editFormRules: {
-        attr_name: [
-          { required: true, message: '请输入参数名称', trigger: 'blur' }
-        ]
+        attr_name: [{ required: true, message: '请输入参数名称', trigger: 'blur' }]
       }
     }
   },
@@ -223,7 +219,7 @@ export default {
       }
       this.cateList = res.data
     },
-    //选择框 变化
+    // 选择框 变化
     cateChanged() {
       this.getParamsData()
     },
@@ -235,14 +231,11 @@ export default {
         this.onlyTableData = []
         return
       }
-      const { data: res } = await this.$http.get(
-        `categories/${this.cateId}/attributes`,
-        {
-          params: {
-            sel: this.activeName
-          }
+      const { data: res } = await this.$http.get(`categories/${this.cateId}/attributes`, {
+        params: {
+          sel: this.activeName
         }
-      )
+      })
       if (res.meta.status !== 200) {
         return this.$message.error('获取参数列表失败！')
       }
@@ -264,8 +257,10 @@ export default {
     },
     // tab点击事件
     handleTabClick() {
-      this.selectedCateKeys.length == 0? this.$message.error('请选择商品分类') : ''
-      console.log(this.activeName)
+      if (this.selectedCateKeys.length === 0) {
+        this.$message.error('请选择商品分类')
+      }
+      // console.log(this.activeName)
       this.getParamsData()
     },
     // 监听添加对话框的关闭
@@ -278,13 +273,10 @@ export default {
         if (!valid) {
           return
         }
-        const { data: res } = await this.$http.post(
-          `categories/${this.cateId}/attributes`,
-          {
-            attr_name: this.addForm.attr_name,
-            attr_sel: this.activeName
-          }
-        )
+        const { data: res } = await this.$http.post(`categories/${this.cateId}/attributes`, {
+          attr_name: this.addForm.attr_name,
+          attr_sel: this.activeName
+        })
         if (res.meta.status !== 201) {
           return this.$message.error('添加参数失败！')
         }
@@ -294,16 +286,13 @@ export default {
       })
     },
     // 编辑按钮
-    async showEditDialog(attr_id) {
-      console.log(attr_id)
-      const { data: res } = await this.$http.get(
-        `categories/${this.cateId}/attributes/${attr_id}`,
-        {
-          params: {
-            attr_sel: this.activeName
-          }
+    async showEditDialog(attrId) {
+      // console.log(attr_id)
+      const { data: res } = await this.$http.get(`categories/${this.cateId}/attributes/${attrId}`, {
+        params: {
+          attr_sel: this.activeName
         }
-      )
+      })
       if (res.meta.status !== 200) {
         return this.$message.error('请求参数信息失败！')
       }
@@ -321,13 +310,10 @@ export default {
         if (!valid) {
           return
         }
-        const { data: res } = await this.$http.put(
-          `categories/${this.cateId}/attributes/${this.editForm.attr_id}`,
-          {
-            attr_name: this.editForm.attr_name,
-            attr_sel: this.activeName
-          }
-        )
+        const { data: res } = await this.$http.put(`categories/${this.cateId}/attributes/${this.editForm.attr_id}`, {
+          attr_name: this.editForm.attr_name,
+          attr_sel: this.activeName
+        })
         if (res.meta.status !== 200) {
           return this.$message.error('修改参数失败！')
         }
@@ -337,23 +323,17 @@ export default {
       })
     },
     // 删除参数
-    async removeParams(attr_id) {
-      const confirmResult = await this.$confirm(
-        '此操作将永久删除该参数, 是否继续?',
-        '提示',
-        {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }
-      ).catch(err => err)
+    async removeParams(attrId) {
+      const confirmResult = await this.$confirm('此操作将永久删除该参数, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).catch(err => err)
       if (confirmResult !== 'confirm') {
         return this.$message.info('取消了删除！')
       }
       // 调用删除参数api
-      const { data: res } = await this.$http.delete(
-        `categories/${this.cateId}/attributes/${attr_id}`
-      )
+      const { data: res } = await this.$http.delete(`categories/${this.cateId}/attributes/${attrId}`)
       if (res.meta.status !== 200) {
         return this.$message.error('删除参数失败！')
       }
@@ -372,8 +352,7 @@ export default {
       row.inputValue = ''
       row.inputVisible = false
 
-      this.saveAttrVals(row) 
-     
+      this.saveAttrVals(row)
     },
     // 展开行按钮
     showInput(row) {
@@ -386,15 +365,12 @@ export default {
     },
     // 操作attr_vals，保存到数据库
     async saveAttrVals(row) {
-       // 发起请求，保存tag文本
-      const { data: res } = await this.$http.put(
-        `categories/${this.cateId}/attributes/${row.attr_id}`,
-        {
-          attr_name: row.attr_name,
-          attr_sel: row.attr_sel,
-          attr_vals: row.attr_vals.join(',')
-        }
-      )
+      // 发起请求，保存tag文本
+      const { data: res } = await this.$http.put(`categories/${this.cateId}/attributes/${row.attr_id}`, {
+        attr_name: row.attr_name,
+        attr_sel: row.attr_sel,
+        attr_vals: row.attr_vals.join(',')
+      })
       if (res.meta.status !== 200) {
         return this.$message.error('修改参数项失败！')
       }
@@ -403,8 +379,8 @@ export default {
     },
     // 删除展开行 tag
     handleClose(i, row) {
-      row.attr_vals.splice(i,1)
-      this.saveAttrVals(row) 
+      row.attr_vals.splice(i, 1)
+      this.saveAttrVals(row)
     }
   },
   computed: {
@@ -423,7 +399,7 @@ export default {
       return null
     },
     titleText() {
-      if (this.activeName == 'many') {
+      if (this.activeName === 'many') {
         return '动态参数'
       }
       return '静态属性'

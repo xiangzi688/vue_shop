@@ -153,12 +153,8 @@ export default {
       editForm: {},
       //   编辑角色验证规则
       editFormRules: {
-        roleName: [
-          { required: true, message: '请输入角色名称', trigger: 'blur' }
-        ],
-        roleDesc: [
-          { required: false, message: '请输入角色描述', trigger: 'blur' }
-        ]
+        roleName: [{ required: true, message: '请输入角色名称', trigger: 'blur' }],
+        roleDesc: [{ required: false, message: '请输入角色描述', trigger: 'blur' }]
       },
       //   控制修改角色弹框
       editDialogVisible: false,
@@ -171,12 +167,8 @@ export default {
       },
       //   添加角色验证规则
       addFormRules: {
-        roleName: [
-          { required: true, message: '请输入角色名称', trigger: 'blur' }
-        ],
-        roleDesc: [
-          { required: false, message: '请输入角色描述', trigger: 'blur' }
-        ]
+        roleName: [{ required: true, message: '请输入角色名称', trigger: 'blur' }],
+        roleDesc: [{ required: false, message: '请输入角色描述', trigger: 'blur' }]
       },
       // 控制 分配权限弹框
       setRightDialogVisible: false,
@@ -215,15 +207,11 @@ export default {
     },
     // 根据id删除对应的角色
     async removeRolesById(role) {
-      const confirmResult = await this.$confirm(
-        '此操作将永久删除该角色, 是否继续?',
-        '提示',
-        {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }
-      ).catch(err => err)
+      const confirmResult = await this.$confirm('此操作将永久删除该角色, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).catch(err => err)
 
       if (confirmResult !== 'confirm') {
         return this.$message.info('取消了删除')
@@ -239,22 +227,16 @@ export default {
     },
     // tag  根据id 删除 对应的权限
     async removeRoleById(role, rightId) {
-      const confirmResult = await this.$confirm(
-        '此操作将永久删除该权限, 是否继续?',
-        '提示',
-        {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }
-      ).catch(err => err)
+      const confirmResult = await this.$confirm('此操作将永久删除该权限, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).catch(err => err)
 
       if (confirmResult !== 'confirm') {
         return this.$message.info('取消了删除')
       }
-      const { data: res } = await this.$http.delete(
-        `roles/${role.id}/rights/${rightId}`
-      )
+      const { data: res } = await this.$http.delete(`roles/${role.id}/rights/${rightId}`)
       if (res.meta.status !== 200) {
         return this.$message.error('删除权限失败！')
       }
@@ -267,13 +249,10 @@ export default {
         if (!valid) {
           return
         }
-        const { data: res } = await this.$http.put(
-          'roles/' + this.editForm.roleId,
-          {
-            roleName: this.editForm.roleName,
-            roleDesc: this.editForm.roleDesc
-          }
-        )
+        const { data: res } = await this.$http.put('roles/' + this.editForm.roleId, {
+          roleName: this.editForm.roleName,
+          roleDesc: this.editForm.roleDesc
+        })
         if (res.meta.status !== 200) {
           return this.$message.error('修改角色失败！')
         }
@@ -331,16 +310,10 @@ export default {
     },
     // 分配权限 确认按钮
     async allotRights() {
-      const keys = [
-        ...this.$refs.treeRef.getCheckedKeys(),
-        ...this.$refs.treeRef.getHalfCheckedKeys()
-      ]
+      const keys = [...this.$refs.treeRef.getCheckedKeys(), ...this.$refs.treeRef.getHalfCheckedKeys()]
       const idStr = keys.join(',')
-      const { data: res } = await this.$http.post(
-        `roles/${this.roleId}/rights`,
-        { rids: idStr }
-      )
-      if(res.meta.status !== 200) {
+      const { data: res } = await this.$http.post(`roles/${this.roleId}/rights`, { rids: idStr })
+      if (res.meta.status !== 200) {
         return this.$message.error('分配权限失败！')
       }
       this.getRolesList()
@@ -368,4 +341,5 @@ export default {
   display: flex;
   align-items: center;
 }
+
 </style>

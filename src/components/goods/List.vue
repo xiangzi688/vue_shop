@@ -81,7 +81,7 @@ export default {
       const { data: res } = await this.$http.get('goods', {
         params: this.queryInfo
       })
-      console.log(res)
+      // console.log(res)
       if (res.meta.status !== 200) {
         return this.$message.error('获取商品列表数据失败！')
       }
@@ -90,29 +90,29 @@ export default {
     },
     // 分页 页面数目改变
     handleSizeChange(newSize) {
-      console.log(newSize, '')
+      // console.log(newSize, '')
       this.queryInfo.pagesize = newSize
       this.getGoodsList()
     },
     // 分页 页码改变
     handleCurrentChange(newPage) {
-      console.log(newPage, '')
+      // console.log(newPage, '')
       this.queryInfo.pagenum = newPage
       this.getGoodsList()
     },
     // 根据id删除商品
-    async removeGoodsById(goods_id) {
-      const confirmResult = await  this.$confirm('此操作将永久删除该商品, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).catch(err => err)
-      if(confirmResult !== 'confirm') {
+    async removeGoodsById(goodsId) {
+      const confirmResult = await this.$confirm('此操作将永久删除该商品, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).catch(err => err)
+      if (confirmResult !== 'confirm') {
         return this.$message.info('取消了删除！')
       }
 
-      const { data: res } = await this.$http.delete('goods/' + goods_id)
-      console.log(res)
+      const { data: res } = await this.$http.delete('goods/' + goodsId)
+      // console.log(res)
       if (res.meta.status !== 200) {
         return this.$message.error('删除商品失败！')
       }
