@@ -330,7 +330,7 @@ export default {
         }
         const { data: res } = await this.$http.put(
           'categories/' + this.editCateForm.cat_id,
-          { cat_name: this.editCateForm.cat_name } 
+          { cat_name: this.editCateForm.cat_name }
 
         )
         if (res.meta.status !== 200) {
